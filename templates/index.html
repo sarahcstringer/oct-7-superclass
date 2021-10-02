@@ -10,10 +10,6 @@
     <script src="//media.twiliocdn.com/sdk/js/video/releases/2.17.1/twilio-video.min.js"></script>
   </head>
   <body>
-    <div id="identity-div">
-        <p>Name:</p>
-        <input type="text" id="identity">
-    </div>
     <div class="circle">
       <div class="yarn" id="yarn-1"></div>
       <div class="yarn" id="yarn-2"></div>
@@ -21,7 +17,10 @@
       <div class="yarn" id="yarn-4"></div>
       <div class="yarn" id="yarn-5"></div>
       <div class="yarn" id="yarn-6"></div>
-      <div class="center"><button id="join">Join!</button></div>
+      <div class="center" id="start">
+        <input type="text" id="identity" placeholder="Your name" /><br />
+        <button id="join">Join!</button>
+      </div>
       <img
         id="needles"
         src="{{ url_for('static', filename='needles.png') }}"
