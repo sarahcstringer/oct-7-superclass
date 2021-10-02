@@ -1,5 +1,4 @@
 import os
-import uuid
 
 import twilio.jwt.access_token
 import twilio.jwt.access_token.grants
