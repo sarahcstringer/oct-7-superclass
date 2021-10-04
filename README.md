@@ -37,10 +37,10 @@ TWILIO_API_KEY=<your api key>
 TWILIO_API_SECRET=<your api key secret>
 ```
 
-You can find your account SID in the Twilio Console Dashboard: https://www.twilio.com/console
+You can find your account SID in the [Twilio Console Dashboard](https://www.twilio.com/console).
 
 You can create a new API key and get the secret through the
-Twilio console: https://www.twilio.com/console/project/api-keys
+[Twilio Console](https://www.twilio.com/console/project/api-keys).
 
 To run the Flask server:
 
@@ -56,21 +56,25 @@ Can't wait to see what you build with Twilio Video!
 
 ## Other Resources
 
-### Troubleshooting
+- [Full-featured Twilio Video React app](https://github.com/twilio/twilio-video-app-react)
 
-Preflight check API
-[Video Diagnostics App](https://www.twilio.com/blog/video-diagnostics-app-reactjs-preflight-api)
-[Video Monitor](https://www.npmjs.com/package/@twilio/video-room-monitor)
-Network Quality API
+### Troubleshooting and Diagnostics
+
+- [Preflight check API](https://github.com/twilio/twilio-video.js/blob/master/CHANGELOG.md#2160-august-11-2021)
+- [Video Diagnostics App](https://www.twilio.com/blog/video-diagnostics-app-reactjs-preflight-api)
+- [Video Monitor](https://www.npmjs.com/package/@twilio/video-room-monitor)
+- [Network Quality API](https://www.twilio.com/docs/video/using-network-quality-api)
 
 ### Virtual Backgrounds and Custom Video Filters
 
-General info: https://www.twilio.com/blog/introducing-virtual-backgrounds-browser-based-video-applications
-Custom filters: https://www.twilio.com/blog/custom-effect-filters-twilio-programmable-video
-Virtual background: https://www.twilio.com/blog/change-background-video-calls-twilio-video-processors-library
+- [General information](https://www.twilio.com/blog/introducing-virtual-backgrounds-browser-based-video-applications)
+- [Custom filters](https://www.twilio.com/blog/custom-effect-filters-twilio-programmable-video)
+- [Virtual background](https://www.twilio.com/blog/change-background-video-calls-twilio-video-processors-library)
 
-### Other Interesting Features
+### Other
 
-Dominant Speaker Detection
-Track Subscription API?
-Recordings and compositions?
+- [Ad-hoc room creation](https://www.twilio.com/docs/video/tutorials/understanding-video-rooms#ad-hoc-rooms)
+- [Dominant Speaker Detection](https://www.twilio.com/docs/video/detecting-dominant-speaker)
+- [Track Subscription API](https://www.twilio.com/docs/video/api/track-subscriptions)
+- [Recordings and compositions](https://www.twilio.com/docs/video/tutorials/understanding-video-recordings-and-compositions)
+- [Simulcast](https://www.twilio.com/docs/video/tutorials/working-with-vp8-simulcast)

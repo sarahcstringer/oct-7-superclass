@@ -2,12 +2,16 @@
 <html>
   <head>
     <title>Twilio Video Chat</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}"/>
+    <!-- CSS -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='main.css') }}"
     />
-    <!-- Include the Twilio Video SDK -->
+    <!-- Twilio Video SDK -->
     <script src="//media.twiliocdn.com/sdk/js/video/releases/2.17.1/twilio-video.min.js"></script>
+    <script src="{{ url_for('static', filename='twilio-video-processors.js') }}"></script>
   </head>
   <body>
     <div class="circle">

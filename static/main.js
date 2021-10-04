@@ -6,25 +6,78 @@ window.addEventListener("load", () => {
 
   // element identifiers
   const startDiv = document.getElementById("start");
+  const identityInput = document.getElementById("identity");
   const joinButton = document.getElementById("join");
 
   // join the video room
   async function connect() {
     startDiv.style.display = "none";
-    // TODO: Fetch an access token
+    // Fetch an access token
+    const response = await fetch("/token", {
+      method: "POST",
+      headers: {"Content-Type": "application/json", "Accept": "application/json"},
+      body: JSON.stringify({"identity": identityInput.value})
+    });
+    const { token } = await response.json();
 
-    // TODO: Use the access token to join a room
+    // create a local video track for applying blurring
+    const videoTrack = await Twilio.Video.createLocalVideoTrack({
+      width: 640,
+      height: 480,
+      frameRate: 24
+    });
+
+    const bg = new Twilio.VideoProcessors.GaussianBlurBackgroundProcessor({
+      assetsPath: './static/',
+      maskBlurRadius: 10,
+      blurFilterRadius: 5,
+    });
+    await bg.loadModel();
+    videoTrack.addProcessor(bg);
+
+    // Use the access token to join a room, and join with the locally created videoTrack
+    const room = await Twilio.Video.connect(token, {
+      video: true,
+      audio: false,
+      tracks: [videoTrack]
+    });
+
+    handleConnectedParticipant(room.localParticipant);
+    room.participants.forEach(handleConnectedParticipant);
+    room.on("participantConnected", handleConnectedParticipant);
+
+    // clean up when someone disconnects
+    room.on("participantDisconnected", handleDisconnectedParticipant);
+    window.addEventListener("pagehide", () => {room.disconnect()})
+    window.addEventListener("beforeunload", () => {room.disconnect()})
   }
 
   // TODO: Complete function for handling when a participant connects to the room
-  function handleConnectedParticipant(participant) {}
+  function handleConnectedParticipant(participant) {
+    findNextAvailableYarn(participant);
+    participant.videoTracks.forEach((trackPublication) => {
+      handleTrackPublished(trackPublication, participant);
+    });
+    participant.on("trackPublished", (trackPublication) => {
+      handleTrackPublished(trackPublication, participant);
+    });
+  }
 
   // TODO: Complete function for handling when a new participant track is published
-  function handleTrackPublished(trackPublication, participant) {}
+  function handleTrackPublished(trackPublication, participant) {
+    const yarn = document.getElementById(`yarn-${participant.number}`);
+    function handleTrackSubscribed(track) {
+      yarn.appendChild(track.attach());
+    }
+    if (trackPublication.track) {
+      handleTrackSubscribed(trackPublication.track);
+    }
+    trackPublication.on("subscribed", handleTrackSubscribed);
+  }
 
   // tidy up helper function for when a participant disconnects
   // or closes the page
-  function participantDisconnected(participant) {
+  function handleDisconnectedParticipant(participant) {
     participant.removeAllListeners();
     const el = document.getElementById(`yarn-${participant.number}`);
     el.innerHTML = "";
