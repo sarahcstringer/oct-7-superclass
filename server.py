@@ -23,11 +23,34 @@ MAX_PARTICIPANTS = 6
 
 twilio_client = twilio.rest.Client(api_key, api_secret, account_sid)
 
+def find_or_create_room():
+    try:
+        room = twilio_client.video.rooms(ROOM_NAME).fetch()
+    except twilio.base.exceptions.TwilioRestException:
+        room = twilio_client.video.rooms.create(
+            unique_name=ROOM_NAME,
+            max_participants=MAX_PARTICIPANTS,
+            type="group"
+        )
+    print(f"{room.unique_name} has {len(room.participants.list())} participants")
 
 @app.route("/")
 def serve():
     """Render the homepage."""
+    find_or_create_room()
     return render_template("index.html")
+
+@app.route("/token", methods=["POST"])
+def get_token():
+    identity = request.json.get("identity")
+    access_token = twilio.jwt.access_token.AccessToken(
+        account_sid, api_key, api_secret, identity=identity
+    )
+    video_grant = twilio.jwt.access_token.grants.VideoGrant(
+        room=ROOM_NAME
+    )
+    access_token.add_grant(video_grant)
+    return {"token": access_token.to_jwt()}
 
 
 # Start the server when we run this file
